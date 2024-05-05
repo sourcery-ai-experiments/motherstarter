@@ -1,14 +1,13 @@
 # Non-pinned requirements file
 bandit
-black
 click
 colorama
 jinja2
 mypy
+ruff
 nox
 openpyxl
 pandas
-pylama
 pytest
 pytest-cov
 xlrd

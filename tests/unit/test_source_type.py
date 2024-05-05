@@ -11,8 +11,9 @@ the wild.
 """
 
 # Import module
-from motherstarter import motherstarter as ms
 import pytest
+
+from motherstarter import motherstarter as ms
 
 # Define the source type globally for all tests.
 ST = "bad"

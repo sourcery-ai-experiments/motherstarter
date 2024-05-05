@@ -6,18 +6,19 @@ used to perform network automation tasks.
 """
 
 # Import modules
-import pandas as pd
-from jinja2 import Environment, FileSystemLoader
-import pathlib as pl
-from colorama import init  # type: ignore
-from logging import Logger
 import logging
-import click
-from typing import Optional, TextIO, Union, List, Dict, Any
-from motherstarter import __version__
 import os
+import pathlib as pl
 import sys
+from logging import Logger
+from typing import Any, Dict, List, Optional, TextIO, Union
 
+import click
+import pandas as pd
+from colorama import init
+from jinja2 import Environment, FileSystemLoader
+
+from motherstarter import __version__
 
 # Get path of the current dir under which the file is executed
 dirname = os.path.dirname(os.path.abspath(__file__))
@@ -55,9 +56,7 @@ def cli() -> None:
     "-l",
     help="Specify the logging level.",
     default="debug",
-    type=click.Choice(
-        ["debug", "info", "warning", "error", "critical"], case_sensitive=False
-    ),
+    type=click.Choice(["debug", "info", "warning", "error", "critical"], case_sensitive=False),
     show_default=True,
 )
 @click.option(
@@ -133,7 +132,7 @@ def convert(
     # If/else block to handle using when the user
     # doesn't specify a template_dir from the command-line
     # If the default value is triggered at this point
-    if template_dir == "motherstarter/templates/core/":
+    if template_dir == "motherstarter/templates/core/":  # noqa
         # Assign the td variable by joining it with the
         # absolute path of the file + the default template_dir
         td = os.path.join(dirname, "templates/core/")
@@ -143,7 +142,7 @@ def convert(
     # If/else block to handle using when the user
     # doesn't specify a source_dir from the command-line
     # If the default value is triggered at this point
-    if source_dir == "motherstarter/inputs/":
+    if source_dir == "motherstarter/inputs/":  # noqa
         # Assign the td variable by joining it with the
         # absolute path of the file + the default source_dir
         sd = os.path.join(dirname, "inputs/")
@@ -206,9 +205,7 @@ def init_logger(log_level: str, log_name: str = "ms.log") -> Logger:
     return logger
 
 
-def init_inventory(
-    logger: Logger, source_dir: str = "", source_type: str = "json"
-) -> pd.DataFrame:
+def init_inventory(logger: Logger, source_dir: str = "", source_type: str = "json") -> pd.DataFrame:
     """
     Initialise the inventory data based on the source_type and from the source
     directory and return a pandas dataframe object.
@@ -247,9 +244,7 @@ def init_inventory(
     return df
 
 
-def init_groups(
-    logger: Logger, source_dir: str = "", source_type: str = "json"
-) -> pd.DataFrame:
+def init_groups(logger: Logger, source_dir: str = "", source_type: str = "json") -> pd.DataFrame:
     """
     Initialise the group data based on the source_type and from the source
     directory and return a pandas dataframe object
@@ -491,15 +486,11 @@ def prep_templates(
     templates = FileSystemLoader(tmpl_dir)
     # Load environment and setting autoescape to True
     # to prevent XSS attacks
-    env = Environment(
-        loader=templates, autoescape=True, trim_blocks=True, lstrip_blocks=True
-    )
+    env = Environment(loader=templates, autoescape=True, trim_blocks=True, lstrip_blocks=True)
     return env
 
 
-def to_nr_hosts(
-    logger: Logger, env: Environment, df: pd.DataFrame, output_dir: str = ""
-) -> TextIO:
+def to_nr_hosts(logger: Logger, env: Environment, df: pd.DataFrame, output_dir: str = "") -> TextIO:
     """
     Take the pandas dataframe, convert it to a dictionary
     and render that dictionary through a Jinja2 template to
@@ -542,9 +533,7 @@ def to_nr_hosts(
     return nr_h_file
 
 
-def to_nr_groups(
-    logger: Logger, env: Environment, df: pd.DataFrame, output_dir: str = ""
-) -> TextIO:
+def to_nr_groups(logger: Logger, env: Environment, df: pd.DataFrame, output_dir: str = "") -> TextIO:
     """
     Take the pandas dataframe, convert it to a dictionary
     and render that dictionary through a Jinja2 template to
@@ -585,9 +574,7 @@ def to_nr_groups(
     return nr_g_file
 
 
-def to_pyats(
-    logger: Logger, env: Environment, df: pd.DataFrame, output_dir: str = ""
-) -> TextIO:
+def to_pyats(logger: Logger, env: Environment, df: pd.DataFrame, output_dir: str = "") -> TextIO:
     """
     Take the pandas dataframe, convert it to a dictionary
     and render that dictionary through a Jinja2 template to
@@ -808,9 +795,7 @@ def to_json_groups(logger: Logger, df: pd.DataFrame, output_dir: str = "") -> st
     return json_file
 
 
-def to_ansible(
-    logger: Logger, env: Environment, df: pd.DataFrame, output_dir: str = ""
-) -> TextIO:
+def to_ansible(logger: Logger, env: Environment, df: pd.DataFrame, output_dir: str = "") -> TextIO:
     """
     Take the pandas dataframe, convert it to a dictionary
     and render that dictionary through a Jinja2 template to
@@ -879,13 +864,9 @@ def main(
     logger.debug(f"Source directory is: {source_dir}")
     logger.debug(f"Source template directory is: {template_dir}")
     # Initialise inventory dataframe, based on the source_dir and source_type
-    inv_df = init_inventory(
-        logger=logger, source_dir=source_dir, source_type=source_type
-    )
+    inv_df = init_inventory(logger=logger, source_dir=source_dir, source_type=source_type)
     # Initialise group dataframe, based on the source_dir and source_type
-    group_df = init_groups(
-        logger=logger, source_dir=source_dir, source_type=source_type
-    )
+    group_df = init_groups(logger=logger, source_dir=source_dir, source_type=source_type)
     # Prepare the jinja2 template environment
     env = prep_templates(tmpl_dir=template_dir)
     # Diagnostic outputs
