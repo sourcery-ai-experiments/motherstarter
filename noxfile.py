@@ -1,11 +1,12 @@
 """
 motherstarter noxfile
 """
+
 # Import modules
 import nox
 
 
-@nox.session(python=["3.8", "3.9"])
+@nox.session(python=["3.10", "3.11"])
 def lint(session):
     """
     Run all linting tests.
@@ -21,29 +22,19 @@ def lint(session):
         N/A
     """
     session.install("-r", "requirements.txt")
-    session.run("black", ".", "--check")
-    session.run("pylama", ".")
+    session.run("ruff", "format", ".", "--check")
+    session.run("ruff", "check", ".")
     session.run("yamllint", ".")
     session.run(
-        "bandit",
-        "-v",
-        "--exclude",
-        "./venv",
-        "--recursive",
-        "--format",
-        "json",
-        "motherstarter/",
-        "--verbose",
-        "-s",
-        "B101",
+        "bandit", "motherstarter/", "--configfile", "pyproject.toml", "--recursive", "--format", "json", "--verbose"
     )
-    session.run("python", "-m", "mypy", "--strict", "motherstarter/")
+    session.run("python", "-m", "mypy", "--config-file", "pyproject.toml")
 
 
-@nox.session(python=["3.8", "3.9"])
-def black(session):
+@nox.session(python=["3.10", "3.11"])
+def ruff_format(session):
     """
-    Nox run black
+    Nox run ruff format
 
     Args:
         session: nox session
@@ -56,13 +47,13 @@ def black(session):
 
     """
     session.install("-r", "requirements.txt")
-    session.run("black", ".", "--check")
+    session.run("ruff", "format", ".", "--check")
 
 
-@nox.session(python=["3.8", "3.9"])
-def pylama(session):
+@nox.session(python=["3.10", "3.11"])
+def ruff_check(session):
     """
-    Nox run pylama
+    Nox run ruff check
 
     Args:
         session: nox session
@@ -75,10 +66,10 @@ def pylama(session):
 
     """
     session.install("-r", "requirements.txt")
-    session.run("pylama", ".")
+    session.run("ruff", "check", ".")
 
 
-@nox.session(python=["3.8", "3.9"])
+@nox.session(python=["3.10", "3.11"])
 def yamllint(session):
     """
     Nox run yamllint
@@ -97,7 +88,7 @@ def yamllint(session):
     session.run("yamllint", ".")
 
 
-@nox.session(python=["3.8", "3.9"])
+@nox.session(python=["3.10", "3.11"])
 def bandit(session):
     """
     Nox run bandit
@@ -114,21 +105,11 @@ def bandit(session):
     """
     session.install("-r", "requirements.txt")
     session.run(
-        "bandit",
-        "-v",
-        "--exclude",
-        "./venv",
-        "--recursive",
-        "--format",
-        "json",
-        "motherstarter/",
-        "--verbose",
-        "-s",
-        "B101",
+        "bandit", "motherstarter/", "--configfile", "pyproject.toml", "--recursive", "--format", "json", "--verbose"
     )
 
 
-@nox.session(python=["3.8", "3.9"])
+@nox.session(python=["3.10", "3.11"])
 def mypy(session):
     """
     Nox run mypy
@@ -143,10 +124,10 @@ def mypy(session):
         N/A
     """
     session.install("-r", "requirements.txt")
-    session.run("python", "-m", "mypy", "--strict", "motherstarter/")
+    session.run("python", "-m", "mypy", "--config-file", "pyproject.toml")
 
 
-@nox.session(python=["3.8", "3.9"])
+@nox.session(python=["3.10", "3.11"])
 def tests(session):
     """
     Nox run tests using pytest

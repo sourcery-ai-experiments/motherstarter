@@ -1,11 +1,13 @@
 # Import modules
-from click.testing import CliRunner
-import pytest
-from motherstarter import motherstarter as ms
-import traceback
 import json
-from openpyxl import load_workbook
+import traceback
+
+import pytest
 import yaml
+from click.testing import CliRunner
+from openpyxl import load_workbook
+
+from motherstarter import motherstarter as ms
 
 # Specify global params
 base_output_dir = "motherstarter/outputs/"
@@ -69,9 +71,7 @@ def test_convert_default(runner):
     assert expected_template_dir_end in result.output
 
 
-def test_output_inventory_json(
-    base_input_dir=base_input_dir, base_output_dir=base_output_dir
-):
+def test_output_inventory_json(base_input_dir=base_input_dir, base_output_dir=base_output_dir):
     """
     Test that the JSON input file and JSON output files
     match in length.
@@ -94,9 +94,7 @@ def test_output_inventory_json(
     assert len(output_data) == len(input_data)
 
 
-def test_output_groups_json(
-    base_input_dir=base_input_dir, base_output_dir=base_output_dir
-):
+def test_output_groups_json(base_input_dir=base_input_dir, base_output_dir=base_output_dir):
     """
     Test that the JSON input file and JSON output files
     match in length.
@@ -119,9 +117,7 @@ def test_output_groups_json(
     assert len(output_data) == len(input_data)
 
 
-def test_output_inventory_csv(
-    base_input_dir=base_input_dir, base_output_dir=base_output_dir
-):
+def test_output_inventory_csv(base_input_dir=base_input_dir, base_output_dir=base_output_dir):
     """
     Test that the csv input file and csv output files
     match in length.
@@ -145,9 +141,7 @@ def test_output_inventory_csv(
     assert len(output_data) - 1 == len(input_data)
 
 
-def test_output_groups_csv(
-    base_input_dir=base_input_dir, base_output_dir=base_output_dir
-):
+def test_output_groups_csv(base_input_dir=base_input_dir, base_output_dir=base_output_dir):
     """
     Test that the csv input file and csv output files
     match in length.
@@ -171,9 +165,7 @@ def test_output_groups_csv(
     assert len(output_data) - 1 == len(input_data)
 
 
-def test_output_inventory_xlsx(
-    base_input_dir=base_input_dir, base_output_dir=base_output_dir
-):
+def test_output_inventory_xlsx(base_input_dir=base_input_dir, base_output_dir=base_output_dir):
     """
     Test that the xlsx input file and xlsx output files
     match in length.
@@ -193,19 +185,15 @@ def test_output_inventory_xlsx(
     wb = load_workbook(filename=f"{base_output_dir}/xlsx/inventory.xlsx")
     ws = wb["inventory"]
     row_count = 0
-    content = ws.iter_rows(
-        min_row=2, min_col=0, max_row=ws.max_row, max_col=ws.max_column
-    )
+    content = ws.iter_rows(min_row=2, min_col=0, max_row=ws.max_row, max_col=ws.max_column)
     # For loop to read through rows in content
-    for row in content:
+    for row in content:  # noqa B007
         row_count += 1
     # Check that the length is the same
     assert len(input_data) == row_count
 
 
-def test_output_groups_xlsx(
-    base_input_dir=base_input_dir, base_output_dir=base_output_dir
-):
+def test_output_groups_xlsx(base_input_dir=base_input_dir, base_output_dir=base_output_dir):
     """
     Test that the xlsx input file and xlsx output files
     match in length.
@@ -225,19 +213,15 @@ def test_output_groups_xlsx(
     wb = load_workbook(filename=f"{base_output_dir}/xlsx/groups.xlsx")
     ws = wb["groups"]
     row_count = 0
-    content = ws.iter_rows(
-        min_row=2, min_col=0, max_row=ws.max_row, max_col=ws.max_column
-    )
+    content = ws.iter_rows(min_row=2, min_col=0, max_row=ws.max_row, max_col=ws.max_column)
     # For loop to read through rows in content
-    for row in content:
+    for row in content:  # noqa
         row_count += 1
     # Check that the length is the same
     assert len(input_data) == row_count
 
 
-def test_output_inventory_nornir(
-    base_input_dir=base_input_dir, base_output_dir=base_output_dir
-):
+def test_output_inventory_nornir(base_input_dir=base_input_dir, base_output_dir=base_output_dir):
     """
     Test that the json input file and nornir inventory files
     match in length.
@@ -260,9 +244,7 @@ def test_output_inventory_nornir(
     assert len(output_data) == len(input_data)
 
 
-def test_output_groups_nornir(
-    base_input_dir=base_input_dir, base_output_dir=base_output_dir
-):
+def test_output_groups_nornir(base_input_dir=base_input_dir, base_output_dir=base_output_dir):
     """
     Test that the json input file and nornir groups files
     match in length.

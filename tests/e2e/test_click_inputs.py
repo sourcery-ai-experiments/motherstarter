@@ -3,14 +3,15 @@ This is where I am testing inputs via the CLI
 """
 
 # Import modules
-from click.testing import CliRunner
-import pytest
-from motherstarter import motherstarter as ms
 import traceback
+
+import pytest
+from click.testing import CliRunner
 
 # Import motherstarter version so we can validate
 # it from the command-line
 from motherstarter import __version__
+from motherstarter import motherstarter as ms
 
 
 @pytest.fixture(scope="module")
@@ -119,9 +120,7 @@ def test_base_help(runner):
         traceback.print_exception(*result.exc_info)  # noqa
     # Assign expected strings to variables, for further validation.
     expected_usage = "Usage: cli [OPTIONS] COMMAND [ARGS]."
-    expected_convert = (
-        "convert  Convert source file(s) into network automation inventory outputs"
-    )
+    expected_convert = "convert  Convert source file(s) into network automation inventory outputs"
     # Perform assertion tests to ensure variables are in the expected outputs
     assert result.exit_code == 0
     assert expected_usage in result.output
@@ -150,8 +149,7 @@ def test_convert_help(runner):
     # Assign expected strings to variables, for further validation.
     expected_usage = "Usage: convert [OPTIONS]"
     expected_convert = (
-        "Convert source file(s) into network automation inventory outputs based on"
-        "\n  multiple command-line inputs"
+        "Convert source file(s) into network automation inventory outputs based on" "\n  multiple command-line inputs"
     )
     # Perform assertion tests to ensure variables are in the expected outputs
     assert result.exit_code == 0
@@ -595,12 +593,8 @@ def test_convert_output_type_csv(runner):
     result = runner.invoke(ms.convert, ["-o", ot])
     # Assign expected strings to variables, for further validation.
     expected_output_type = f"DEBUG - Output type is: {ot}"
-    expected_output_inv_file = (
-        f"INFO - File output location: motherstarter/outputs/{ot}/inventory.{ot}"
-    )
-    expected_output_groups_file = (
-        f"INFO - File output location: motherstarter/outputs/{ot}/groups.{ot}"
-    )
+    expected_output_inv_file = f"INFO - File output location: motherstarter/outputs/{ot}/inventory.{ot}"
+    expected_output_groups_file = f"INFO - File output location: motherstarter/outputs/{ot}/groups.{ot}"
     # Perform assertion tests to ensure variables are in the expected outputs
     assert result.exit_code == 0
     assert expected_output_type in result.output
@@ -629,12 +623,8 @@ def test_convert_output_type_json(runner):
     result = runner.invoke(ms.convert, ["-o", ot])
     # Assign expected strings to variables, for further validation.
     expected_output_type = f"DEBUG - Output type is: {ot}"
-    expected_output_inv_file = (
-        f"INFO - File output location: motherstarter/outputs/{ot}/inventory.{ot}"
-    )
-    expected_output_groups_file = (
-        f"INFO - File output location: motherstarter/outputs/{ot}/groups.{ot}"
-    )
+    expected_output_inv_file = f"INFO - File output location: motherstarter/outputs/{ot}/inventory.{ot}"
+    expected_output_groups_file = f"INFO - File output location: motherstarter/outputs/{ot}/groups.{ot}"
     # Perform assertion tests to ensure variables are in the expected outputs
     assert result.exit_code == 0
     assert expected_output_type in result.output
@@ -663,12 +653,8 @@ def test_convert_output_type_xlsx(runner):
     result = runner.invoke(ms.convert, ["-o", ot])
     # Assign expected strings to variables, for further validation.
     expected_output_type = f"DEBUG - Output type is: {ot}"
-    expected_output_inv_file = (
-        f"INFO - File output location: motherstarter/outputs/{ot}/inventory.{ot}"
-    )
-    expected_output_groups_file = (
-        f"INFO - File output location: motherstarter/outputs/{ot}/groups.{ot}"
-    )
+    expected_output_inv_file = f"INFO - File output location: motherstarter/outputs/{ot}/inventory.{ot}"
+    expected_output_groups_file = f"INFO - File output location: motherstarter/outputs/{ot}/groups.{ot}"
     # Perform assertion tests to ensure variables are in the expected outputs
     assert result.exit_code == 0
     assert expected_output_type in result.output
@@ -697,12 +683,8 @@ def test_convert_output_type_nornir(runner):
     result = runner.invoke(ms.convert, ["-o", ot])
     # Assign expected strings to variables, for further validation.
     expected_output_type = f"DEBUG - Output type is: {ot}"
-    expected_output_inv_file = (
-        "INFO - File output location: motherstarter/outputs/nr/inventory/groups.yaml"
-    )
-    expected_output_groups_file = (
-        "INFO - File output location: motherstarter/outputs/nr/inventory/hosts.yaml"
-    )
+    expected_output_inv_file = "INFO - File output location: motherstarter/outputs/nr/inventory/groups.yaml"
+    expected_output_groups_file = "INFO - File output location: motherstarter/outputs/nr/inventory/hosts.yaml"
     # Perform assertion tests to ensure variables are in the expected outputs
     assert result.exit_code == 0
     assert expected_output_type in result.output
@@ -759,9 +741,7 @@ def test_convert_output_type_ansible(runner):
     result = runner.invoke(ms.convert, ["-o", ot])
     # Assign expected strings to variables, for further validation.
     expected_output_type = f"DEBUG - Output type is: {ot}"
-    expected_output_inv_file = (
-        f"INFO - File output location: motherstarter/outputs/{ot}/inventory/hosts"
-    )
+    expected_output_inv_file = f"INFO - File output location: motherstarter/outputs/{ot}/inventory/hosts"
     # Perform assertion tests to ensure variables are in the expected outputs
     assert result.exit_code == 0
     assert expected_output_type in result.output
@@ -789,34 +769,16 @@ def test_convert_output_type_all(runner):
     result = runner.invoke(ms.convert, ["-o", ot])
     # Assign expected strings to variables, for further validation.
     expected_output_type = f"DEBUG - Output type is: {ot}"
-    expected_output_inv_csv_file = (
-        "INFO - File output location: motherstarter/outputs/csv/inventory.csv"
-    )
-    expected_output_groups_csv_file = (
-        "INFO - File output location: motherstarter/outputs/csv/groups.csv"
-    )
-    expected_output_inv_json_file = (
-        "INFO - File output location: motherstarter/outputs/json/inventory.json"
-    )
-    expected_output_groups_json_file = (
-        "INFO - File output location: motherstarter/outputs/json/groups.json"
-    )
-    expected_output_inv_xlsx_file = (
-        "INFO - File output location: motherstarter/outputs/xlsx/inventory.xlsx"
-    )
-    expected_output_groups_xlsx_file = (
-        "INFO - File output location: motherstarter/outputs/xlsx/groups.xlsx"
-    )
-    expected_output_inv_nornir_file = (
-        "INFO - File output location: motherstarter/outputs/nr/inventory/groups.yaml"
-    )
-    expected_output_groups_nornir_file = (
-        "INFO - File output location: motherstarter/outputs/nr/inventory/hosts.yaml"
-    )
+    expected_output_inv_csv_file = "INFO - File output location: motherstarter/outputs/csv/inventory.csv"
+    expected_output_groups_csv_file = "INFO - File output location: motherstarter/outputs/csv/groups.csv"
+    expected_output_inv_json_file = "INFO - File output location: motherstarter/outputs/json/inventory.json"
+    expected_output_groups_json_file = "INFO - File output location: motherstarter/outputs/json/groups.json"
+    expected_output_inv_xlsx_file = "INFO - File output location: motherstarter/outputs/xlsx/inventory.xlsx"
+    expected_output_groups_xlsx_file = "INFO - File output location: motherstarter/outputs/xlsx/groups.xlsx"
+    expected_output_inv_nornir_file = "INFO - File output location: motherstarter/outputs/nr/inventory/groups.yaml"
+    expected_output_groups_nornir_file = "INFO - File output location: motherstarter/outputs/nr/inventory/hosts.yaml"
     expected_output_pyats_inv_file = "INFO - File output location: motherstarter/outputs/pyats/mother_starter_tb.yaml"  # noqa
-    expected_output_inv_ansible_file = (
-        "INFO - File output location: motherstarter/outputs/ansible/inventory/hosts"
-    )
+    expected_output_inv_ansible_file = "INFO - File output location: motherstarter/outputs/ansible/inventory/hosts"
     # Perform assertion tests to ensure variables are in the expected outputs
     assert result.exit_code == 0
     assert expected_output_type in result.output

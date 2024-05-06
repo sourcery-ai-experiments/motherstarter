@@ -1,0 +1,52 @@
+# Pyproject TOML configuration file
+
+# Bandit settings
+# Doco: https://bandit.readthedocs.io/en/latest/config.html?highlight=pyproject.toml#scanning-behavior
+# NOTE: Excluding ALL sub-dirs for now
+[tool.bandit]
+exclude_dirs = ["venv","./venv", "envs"]
+# Skip all assertion checks in the src/tests/ folder.
+# Asserts are legitimely used in pytest tests
+[tool.bandit.assert_used]
+skips = ["tests"]
+
+# Mypy settings:
+# Doco: https://mypy.readthedocs.io/en/stable/config_file.html#the-mypy-configuration-file
+[tool.mypy]
+disallow_untyped_defs = false
+ignore_missing_imports = true
+explicit_package_bases = true
+# Ignore duplicate namespace packages issue
+no_namespace_packages = false
+strict = true
+# Ignore all files within the repo
+exclude = "(venv|envs)"
+
+# Ruff line settings
+[tool.ruff]
+line-length = 120
+
+# TODO: Allow refactor only
+extend-include = ["refactor"]
+
+
+# Ruff linting settings
+[tool.ruff.lint]
+select = [
+    # pycodestyle
+    "E",
+    # Pyflakes
+    "F",
+    # pyupgrade
+    "UP",
+    # flake8-bugbear
+    "B",
+    # flake8-simplify
+    "SIM",
+    # isort
+    "I",
+]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+

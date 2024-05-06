@@ -8,24 +8,45 @@ help:
 	awk -F ':.*?## ' 'NF==2 {printf "\033[35m  %-25s\033[0m %s\n", $$1, $$2}'
 
 all: lint-all tests ## Perform all linting checks, security checks and tests
-lint-all:	black pylama yamllint bandit ## Perform all linting and security checks (black, pylama, yamllint and bandit).
+lint-all:	ruff-format-check ruff-check yamllint bandit mypy ## Perform all linting and security checks (ruff, yamllint, bandit and mypy).
 tests:	pytest pytest-cov ## Perform pytests checks (verbose mode and coverage report).
 
-black: ## Format code using black
-	@echo "--- Performing black reformatting ---"
-	black . --check
+# black: ## Format code using black
+# 	@echo "--- Performing black reformatting ---"
+# 	black . --check
 
-pylama:	## Perform python linting using pylama
-	@echo "--- Performing pylama linting ---"
-	pylama .
+# pylama:	## Perform python linting using pylama
+# 	@echo "--- Performing pylama linting ---"
+# 	pylama .
+
+.PHONY:	ruff-format-check
+ruff-format-check: ## Format check code using ruff
+	@echo "--- Performing ruff reformatting checks ---"
+	ruff format --check .
+
+.PHONY:	ruff-format
+ruff-format: ## Format code using ruff
+	@echo "--- Performing ruff reformatting ---"
+	ruff format .
+
+.PHONY:	ruff-check
+ruff-check: ## Check code using ruff
+	@echo "--- Performing ruff checks ---"
+	ruff check .
 
 yamllint:	## Perform YAML linting using yamllint
 	@echo "--- Performing yamllint linting ---"
 	yamllint .
 
+.PHONY: bandit
 bandit:	## Perform python code security checks using bandit
 	@echo "--- Performing bandit code security scanning ---"
-	bandit motherstarter/ -v --exclude ./venv --recursive --format json --verbose -s B101
+	bandit motherstarter/ --configfile pyproject.toml --recursive --format json --verbose
+
+.PHONY: mypy
+mypy:	## Perform mypy type hint checking using mypy
+	@echo "--- Performing mypy type hint checking ---"
+	mypy motherstarter/ --config-file pyproject.toml
 
 .PHONY: venv
 venv: ## Install virtualenv, create virtualenv, install requirements for Python 3

@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 # Motherstarter setup file
-from setuptools import setup, find_packages
-from motherstarter import __version__, __author__
+from setuptools import find_packages, setup
 
+from motherstarter import __author__, __version__
 
 # Open and read README file
-with open("README.md", "r", encoding="utf-8") as f:
+with open("README.md", encoding="utf-8") as f:
     README = f.read()
 
 
